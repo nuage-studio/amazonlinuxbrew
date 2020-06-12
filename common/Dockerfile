@@ -25,4 +25,7 @@ RUN /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/instal
 # Tap additionnal modules
 RUN brew tap homebrew/bundle
 
+# Update Homebrew
+RUN brew update
+
 CMD bash

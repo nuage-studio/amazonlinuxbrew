@@ -22,5 +22,5 @@ https://hub.docker.com/repository/docker/nuagestudio/amazonlinuxbrew
 To deploy the image manually:
 
 ```bash
-docker push nuagestudio/amazonlinuxbrew:
+docker push nuagestudio/amazonlinuxbrew
 ```
