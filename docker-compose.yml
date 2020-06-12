@@ -1,0 +1,11 @@
+version: "3.8"
+
+services:
+
+  node:
+    image: amazonlinuxbrew:node
+    build: ./node
+
+  python:
+    image: amazonlinuxbrew:python
+    build: ./python
