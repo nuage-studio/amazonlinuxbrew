@@ -1,0 +1,32 @@
+version: "2"
+
+vars:
+  IMAGE_NAME: amazonlinuxbrew
+
+tasks:
+  build:
+    summary: Builds all Docker images for amazonlinuxbrew using Docker Compose
+    deps: [build-common]
+    cmds:
+      - docker-compose build --parallel
+
+  build-common:
+    summary: Builds the base Linuxbrew image on Amazonlinux
+    dir: common
+    cmds:
+      - "docker build -t {{.IMAGE_NAME}} -f ./Dockerfile ."
+    method: checksum
+
+  build-node:
+    deps: [build-common]
+    dir: node
+    cmds:
+      - "docker build -t {{.IMAGE_NAME}}:node -f ./Dockerfile ."
+    method: checksum
+
+  build-python:
+    deps: [build-common]
+    dir: python
+    cmds:
+      - "docker build -t {{.IMAGE_NAME}}:python -f ./Dockerfile ."
+    method: checksum
