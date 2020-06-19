@@ -14,19 +14,19 @@ tasks:
     summary: Builds the base Linuxbrew image on Amazonlinux
     dir: common
     cmds:
-      - "docker build -t {{.IMAGE_NAME}} -f ./Dockerfile ."
+      - "docker build -t nuagestudio/{{.IMAGE_NAME}} -f ./Dockerfile ."
     method: checksum
 
   build-node:
     deps: [build-common]
     dir: node
     cmds:
-      - "docker build -t {{.IMAGE_NAME}}:node -f ./Dockerfile ."
+      - "docker build -t nuagestudio/{{.IMAGE_NAME}}:node -f ./Dockerfile ."
     method: checksum
 
   build-python:
     deps: [build-common]
     dir: python
     cmds:
-      - "docker build -t {{.IMAGE_NAME}}:python -f ./Dockerfile ."
+      - "docker build -t nuagestudio/{{.IMAGE_NAME}}:python -f ./Dockerfile ."
     method: checksum
