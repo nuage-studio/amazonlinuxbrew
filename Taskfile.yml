@@ -1,32 +1,53 @@
 version: "2"
 
 vars:
-  IMAGE_NAME: amazonlinuxbrew
+  IMAGE_NAME: nuagestudio/amazonlinuxbrew
 
 tasks:
+  ######################################################################################
+  ### Build
+  ######################################################################################
+
   build:
     summary: Builds all Docker images for amazonlinuxbrew using Docker Compose
     deps: [build-common]
     cmds:
-      - docker-compose build --parallel
+      # https://www.docker.com/blog/faster-builds-in-compose-thanks-to-buildkit-support/
+      - COMPOSE_DOCKER_CLI_BUILD=1 DOCKER_BUILDKIT=1 docker-compose build --parallel
 
   build-common:
     summary: Builds the base Linuxbrew image on Amazonlinux
     dir: common
     cmds:
-      - "docker build -t nuagestudio/{{.IMAGE_NAME}} -f ./Dockerfile ."
-    method: checksum
+      - "DOCKER_BUILDKIT=1 docker build -t {{.IMAGE_NAME}} -f ./Dockerfile ."
+    status:
+      - "docker image inspect {{.IMAGE_NAME}}"
 
   build-node:
     deps: [build-common]
     dir: node
+    vars:
+      TAG: "{{.IMAGE_NAME}}:node"
     cmds:
-      - "docker build -t nuagestudio/{{.IMAGE_NAME}}:node -f ./Dockerfile ."
-    method: checksum
+      - "docker build -t {{.TAG}} -f ./Dockerfile ."
+    status:
+      - "docker image inspect {{.TAG}}"
 
   build-python:
     deps: [build-common]
     dir: python
+    vars:
+      TAG: "{{.IMAGE_NAME}}:python"
     cmds:
-      - "docker build -t nuagestudio/{{.IMAGE_NAME}}:python -f ./Dockerfile ."
-    method: checksum
+      - "docker build -t {{.TAG}} -f ./Dockerfile ."
+    status:
+      - "docker image inspect {{.TAG}}"
+
+  ######################################################################################
+  ### Run
+  ######################################################################################
+
+  run:
+    deps: [build-common]
+    cmds:
+      - "docker run -it --rm {{.IMAGE_NAME}}"
