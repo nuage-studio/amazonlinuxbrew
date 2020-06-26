@@ -2,12 +2,9 @@ FROM amazonlinux
 
 LABEL maintainer="Louis Amon <louis@nuage.studio>"
 
-RUN yum update -y
-RUN yum install deltarpm -y
-
 # Homebrew requirements
-RUN yum groupinstall 'Development Tools' -y
-RUN yum install curl file git sudo which -y
+RUN yum groupinstall 'Development Tools' -y \
+    && yum install curl file git sudo which -y
 
 # Create linuxbrew user
 # https://hub.docker.com/r/linuxbrew/linuxbrew/dockerfile
@@ -16,16 +13,20 @@ USER linuxbrew
 WORKDIR /home/linuxbrew
 ENV PATH=/home/linuxbrew/.linuxbrew/bin:/home/linuxbrew/.linuxbrew/sbin:$PATH \
     SHELL=/bin/bash \
-    USER=linuxbrew
+    USER=linuxbrew \
+    HOMEBREW_NO_ANALYTICS=1 \
+    HOMEBREW_NO_AUTO_UPDATE=1
 
 # Install Homebrew
 # https://brew.sh/
-RUN /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
+RUN /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)" \
+    && brew tap homebrew/core \
+    && brew cleanup \
+    && rm -rf .cache
 
-# Tap additionnal modules
-RUN brew tap homebrew/bundle
-
-# Update Homebrew
-RUN brew update
+# Install brew bundle (optional)
+RUN brew tap homebrew/bundle \
+    && brew cleanup \
+    && rm -rf .cache
 
 CMD bash

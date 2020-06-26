@@ -2,10 +2,8 @@ FROM nuagestudio/amazonlinuxbrew
 
 LABEL maintainer="Louis Amon <louis@nuage.studio>"
 
-# Install Python version manager
-RUN brew install pyenv
-
-# Install Python dependency manager
-RUN brew install poetry
+RUN brew install pyenv poetry \
+    && brew cleanup \
+    && rm -rf .cache
 
 CMD bash
