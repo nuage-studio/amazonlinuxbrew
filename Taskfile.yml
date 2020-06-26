@@ -68,3 +68,8 @@ tasks:
     deps: [build-common]
     cmds:
       - "docker run -it --rm {{.IMAGE_NAME}}"
+
+  run-altus:
+    deps: [build-altus]
+    cmds:
+      - "docker run -it --rm {{.IMAGE_NAME}}:altus"
