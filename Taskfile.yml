@@ -26,6 +26,7 @@ tasks:
 
   build-node:
     deps: [build-common]
+    summary: "Builds an image that has Nodenv + Yarn"
     dir: node
     vars:
       TAG: "{{.IMAGE_NAME}}:node"
@@ -36,10 +37,23 @@ tasks:
     method: checksum
 
   build-python:
+    summary: "Builds an image that has PyEnv + Poetry"
     deps: [build-common]
     dir: python
     vars:
       TAG: "{{.IMAGE_NAME}}:python"
+    cmds:
+      - "docker build -t {{.TAG}} -f ./Dockerfile ."
+    sources:
+      - Dockerfile
+    method: checksum
+  
+  build-altus:
+    summary: "Builds an image that has Python + Node + Taskfile + PostGIS"
+    deps: ["build-common"]
+    dir: altus
+    vars:
+      TAG: "{{.IMAGE_NAME}}:altus"
     cmds:
       - "docker build -t {{.TAG}} -f ./Dockerfile ."
     sources:
