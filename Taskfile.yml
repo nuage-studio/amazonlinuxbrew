@@ -20,8 +20,9 @@ tasks:
     dir: common
     cmds:
       - "DOCKER_BUILDKIT=1 docker build -t {{.IMAGE_NAME}} -f ./Dockerfile ."
-    status:
-      - "docker image inspect {{.IMAGE_NAME}}"
+    sources:
+      - Dockerfile
+    method: checksum
 
   build-node:
     deps: [build-common]
@@ -30,8 +31,9 @@ tasks:
       TAG: "{{.IMAGE_NAME}}:node"
     cmds:
       - "docker build -t {{.TAG}} -f ./Dockerfile ."
-    status:
-      - "docker image inspect {{.TAG}}"
+    sources:
+      - Dockerfile
+    method: checksum
 
   build-python:
     deps: [build-common]
@@ -40,8 +42,9 @@ tasks:
       TAG: "{{.IMAGE_NAME}}:python"
     cmds:
       - "docker build -t {{.TAG}} -f ./Dockerfile ."
-    status:
-      - "docker image inspect {{.TAG}}"
+    sources:
+      - Dockerfile
+    method: checksum
 
   ######################################################################################
   ### Run
