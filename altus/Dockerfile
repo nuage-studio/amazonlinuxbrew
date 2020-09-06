@@ -1,26 +1,17 @@
-FROM nuagestudio/amazonlinuxbrew
+FROM nuagestudio/amazonlinuxbrew:cirrus
 
 LABEL maintainer="Louis Amon <louis@nuage.studio>"
 
-# Node
-RUN brew install nodenv yarn \
-    && brew cleanup \
-    && rm -rf .cache
-
-# Python
-RUN brew install pyenv poetry \
-    && brew cleanup \
-    && rm -rf .cache
-
-# Taskfile
-RUN brew install go-task/tap/go-task \
-    && brew cleanup \
-    && rm -rf .cache
-
 # PostgreSQL + PostGIS
-# RUN brew install postgis \
+RUN brew install postgis \
+    && brew cleanup \
+    && rm -rf .cache
+
+# RUN brew install --only-dependencies qt \
 #     && brew cleanup \
 #     && rm -rf .cache
+
+# RUN brew update && brew install qt
 
 # FIXME: PostGIS disabled due to a bug in `qt`
 # Try: `brew update && brew install qt` from `amazonlinuxbrew`

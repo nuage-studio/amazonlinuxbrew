@@ -47,6 +47,18 @@ tasks:
     sources:
       - Dockerfile
     method: checksum
+
+  build-cirrus:
+    summary: "Builds an image that has Python + Node + Taskfile"
+    deps: [build-python, build-node]
+    dir: cirrus
+    vars:
+      TAG: "{{.IMAGE_NAME}}:cirrus"
+    cmds:
+      - "docker build -t {{.TAG}} -f ./Dockerfile ."
+    sources:
+      - Dockerfile
+    method: checksum
   
   build-altus:
     summary: "Builds an image that has Python + Node + Taskfile + PostGIS"
