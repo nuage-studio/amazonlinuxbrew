@@ -1,87 +1,29 @@
-version: "2"
+version: "3"
 
 vars:
   IMAGE_NAME: nuagestudio/amazonlinuxbrew
 
 tasks:
+  default:
+    cmds:
+      - task: run
+
   ######################################################################################
   ### Build
   ######################################################################################
 
   build:
-    summary: Builds all Docker images for amazonlinuxbrew using Docker Compose
-    deps: [build-common]
-    cmds:
-      # https://www.docker.com/blog/faster-builds-in-compose-thanks-to-buildkit-support/
-      - COMPOSE_DOCKER_CLI_BUILD=1 DOCKER_BUILDKIT=1 docker-compose build --parallel
-
-  build-common:
     summary: Builds the base Linuxbrew image on Amazonlinux
-    dir: common
     cmds:
-      - "DOCKER_BUILDKIT=1 docker build -t {{.IMAGE_NAME}} -f ./Dockerfile ."
+      - docker build -t {{.IMAGE_NAME}} -f ./Dockerfile .
     sources:
       - Dockerfile
-    method: checksum
-
-  build-node:
-    deps: [build-common]
-    summary: "Builds an image that has Nodenv + Yarn"
-    dir: node
-    vars:
-      TAG: "{{.IMAGE_NAME}}:node"
-    cmds:
-      - "docker build -t {{.TAG}} -f ./Dockerfile ."
-    sources:
-      - Dockerfile
-    method: checksum
-
-  build-python:
-    summary: "Builds an image that has PyEnv + Poetry"
-    deps: [build-common]
-    dir: python
-    vars:
-      TAG: "{{.IMAGE_NAME}}:python"
-    cmds:
-      - "docker build -t {{.TAG}} -f ./Dockerfile ."
-    sources:
-      - Dockerfile
-    method: checksum
-
-  build-cirrus:
-    summary: "Builds an image that has Python + Node + Taskfile"
-    deps: [build-python, build-node]
-    dir: cirrus
-    vars:
-      TAG: "{{.IMAGE_NAME}}:cirrus"
-    cmds:
-      - "docker build -t {{.TAG}} -f ./Dockerfile ."
-    sources:
-      - Dockerfile
-    method: checksum
-  
-  build-altus:
-    summary: "Builds an image that has Python + Node + Taskfile + PostGIS"
-    deps: ["build-common"]
-    dir: altus
-    vars:
-      TAG: "{{.IMAGE_NAME}}:altus"
-    cmds:
-      - "docker build -t {{.TAG}} -f ./Dockerfile ."
-    sources:
-      - Dockerfile
-    method: checksum
 
   ######################################################################################
   ### Run
   ######################################################################################
 
   run:
-    deps: [build-common]
+    deps: [build]
     cmds:
       - "docker run -it --rm {{.IMAGE_NAME}}"
-
-  run-altus:
-    deps: [build-altus]
-    cmds:
-      - "docker run -it --rm {{.IMAGE_NAME}}:altus"

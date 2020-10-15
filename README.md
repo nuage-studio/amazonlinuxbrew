@@ -12,7 +12,7 @@ The purpose of this project is to be able to use this flexible package manager i
 To build the image locally:
 
 ```bash
-docker build -t linuxbrew-amazonlinux -f ./Dockerfile .
+task build
 ```
 
 # Deploying the image on DockerHub

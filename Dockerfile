@@ -1,4 +1,4 @@
-FROM amazonlinux
+FROM amazonlinux AS amazonlinuxbrew
 
 LABEL maintainer="Louis Amon <louis@nuage.studio>"
 
