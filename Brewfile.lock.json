@@ -1,0 +1,69 @@
+{
+  "entries": {
+    "tap": {
+      "go-task/tap": {
+        "revision": "66a307857bc7770fef9926aa2a32c38f310d96e8"
+      }
+    },
+    "brew": {
+      "go-task": {
+        "version": "3.0.0",
+        "bottle": false
+      },
+      "act": {
+        "version": "0.2.16",
+        "bottle": {
+          "cellar": ":any_skip_relocation",
+          "prefix": "/usr/local",
+          "files": {
+            "catalina": {
+              "url": "https://homebrew.bintray.com/bottles/act-0.2.16.catalina.bottle.tar.gz",
+              "sha256": "0f07dbc4d2b860661513a7e345179c95cf3d13dcf9061508885be2993ee35975"
+            },
+            "mojave": {
+              "url": "https://homebrew.bintray.com/bottles/act-0.2.16.mojave.bottle.tar.gz",
+              "sha256": "63aa66b44617c85b5d4b2d9e6db8d2adf97909c85f312d40abe5fd8ad8ecb2ed"
+            },
+            "high_sierra": {
+              "url": "https://homebrew.bintray.com/bottles/act-0.2.16.high_sierra.bottle.tar.gz",
+              "sha256": "8e5bcd4db6828643ca780f0e8e1a85f324cb7dfa57ea11965b5f882f74cb98f1"
+            }
+          }
+        }
+      },
+      "docker": {
+        "version": "19.03.13",
+        "bottle": {
+          "cellar": ":any_skip_relocation",
+          "prefix": "/usr/local",
+          "files": {
+            "catalina": {
+              "url": "https://homebrew.bintray.com/bottles/docker-19.03.13.catalina.bottle.tar.gz",
+              "sha256": "d71d12ae8813da24871221cdabba7d01a0a2f8af298e4eef5406a29a2af67482"
+            },
+            "mojave": {
+              "url": "https://homebrew.bintray.com/bottles/docker-19.03.13.mojave.bottle.tar.gz",
+              "sha256": "f282bf99e388228269a531561efea176ca9abb46fc25ae6a4da739839a6850cb"
+            },
+            "high_sierra": {
+              "url": "https://homebrew.bintray.com/bottles/docker-19.03.13.high_sierra.bottle.tar.gz",
+              "sha256": "ec61a354367c1226467664ee770e6665c5f0a8be041242e226233566b58ccad0"
+            }
+          }
+        }
+      }
+    }
+  },
+  "system": {
+    "macos": {
+      "high_sierra": {
+        "HOMEBREW_VERSION": "2.5.6",
+        "HOMEBREW_PREFIX": "/usr/local",
+        "Homebrew/homebrew-core": "bdf0c2b1ed0d212069c4f5a46a05362100526d99",
+        "CLT": "10.1.0.0.1.1539992718",
+        "Xcode": "10.1",
+        "macOS": "10.13.6"
+      }
+    }
+  }
+}
