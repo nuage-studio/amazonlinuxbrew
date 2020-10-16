@@ -15,9 +15,7 @@ tasks:
   build:
     summary: Builds the base Linuxbrew image on Amazonlinux
     cmds:
-      - docker build -t {{.IMAGE_NAME}} -f ./Dockerfile .
-    sources:
-      - Dockerfile
+      - docker build --tag {{.IMAGE_NAME}} --file ./Dockerfile --build-arg TIMESTAMP=`date +%s` .
 
   ci:
     summary: Simulates the Github Actions CI locally

@@ -29,4 +29,12 @@ RUN brew tap homebrew/bundle \
     && brew cleanup \
     && rm -rf .cache
 
+# NB: the trick below allows us to rebuild only that layer of the image whenever we run
+# a `docker build` : this way we keep an up-to-date Homebrew without having to rebuild everything
+ARG TIMESTAMP=unknown
+RUN TIMESTAMP=${TIMESTAMP} brew update \
+    && brew upgrade \
+    && brew cleanup \
+    && rm -rf .cache
+
 CMD bash
