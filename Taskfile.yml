@@ -19,6 +19,11 @@ tasks:
     sources:
       - Dockerfile
 
+  ci:
+    summary: Simulates the Github Actions CI locally
+    cmds:
+      - act --platform ubuntu-latest=nuagestudio/github-actions:alpine
+
   ######################################################################################
   ### Run
   ######################################################################################
