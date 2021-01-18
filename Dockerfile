@@ -2,6 +2,9 @@ FROM amazonlinux AS amazonlinuxbrew
 
 LABEL maintainer="Louis Amon <louis@nuage.studio>"
 
+# Update AmazonLinux
+RUN yum update
+
 # Homebrew requirements
 RUN yum groupinstall 'Development Tools' -y \
     && yum install curl file git sudo which -y
