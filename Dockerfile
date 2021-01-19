@@ -3,7 +3,7 @@ FROM amazonlinux AS amazonlinuxbrew
 LABEL maintainer="Louis Amon <louis@nuage.studio>"
 
 # Update AmazonLinux
-RUN yum update
+RUN yum update -y
 
 # Homebrew requirements
 RUN yum groupinstall 'Development Tools' -y \
