@@ -14,8 +14,16 @@ tasks:
 
   build:
     summary: Builds the base Linuxbrew image on Amazonlinux
+    # Note: Linuxbrew does not currently support ARM 64bit
+    # https://docs.brew.sh/Homebrew-on-Linux#arm
     cmds:
-      - docker build --tag {{.IMAGE_NAME}} --file ./Dockerfile --build-arg TIMESTAMP=`date +%s` .
+      - >
+        docker build
+        --platform linux/amd64
+        --tag {{.IMAGE_NAME}}
+        --file ./Dockerfile
+        --build-arg TIMESTAMP=`date +%s`
+        .
 
   ci:
     summary: Simulates the Github Actions CI locally
