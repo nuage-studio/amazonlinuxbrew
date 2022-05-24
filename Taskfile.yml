@@ -2,39 +2,37 @@ version: "3"
 
 vars:
   IMAGE_NAME: nuagestudio/amazonlinuxbrew
+  # Note: Linuxbrew does not currently support ARM 64bit
+  # https://docs.brew.sh/Homebrew-on-Linux#arm
+  PLATFORM: linux/amd64
 
 tasks:
   default:
     cmds:
       - task: run
 
-  ######################################################################################
-  ### Build
-  ######################################################################################
-
   build:
     summary: Builds the base Linuxbrew image on Amazonlinux
-    # Note: Linuxbrew does not currently support ARM 64bit
-    # https://docs.brew.sh/Homebrew-on-Linux#arm
     cmds:
       - >
         docker build
-        --platform linux/amd64
+        --platform {{.PLATFORM}}
         --tag {{.IMAGE_NAME}}
         --file ./Dockerfile
         --build-arg TIMESTAMP=`date +%s`
         .
+
+  push:
+    summary: Pushes the image onto the registry
+    cmds:
+      - docker login && docker push {{.IMAGE_NAME}}
 
   ci:
     summary: Simulates the Github Actions CI locally
     cmds:
       - act --platform ubuntu-latest=nuagestudio/github-actions:alpine
 
-  ######################################################################################
-  ### Run
-  ######################################################################################
-
   run:
     deps: [build]
     cmds:
-      - "docker run -it --rm {{.IMAGE_NAME}}"
+      - docker run -it --rm --platform {{.PLATFORM}} {{.IMAGE_NAME}}
