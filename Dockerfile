@@ -1,4 +1,4 @@
-FROM amazonlinux:2.0.20220426.0 AS amazonlinuxbrew
+FROM amazonlinux:latest
 
 LABEL maintainer="Louis Amon <louis@nuage.studio>"
 
@@ -7,7 +7,7 @@ RUN yum update -y
 
 # Homebrew requirements
 RUN yum groupinstall 'Development Tools' -y \
-    && yum install curl file git sudo which -y
+    && yum install procps-ng curl file git sudo which -y
 
 # Create linuxbrew user
 # https://hub.docker.com/r/linuxbrew/linuxbrew/dockerfile
