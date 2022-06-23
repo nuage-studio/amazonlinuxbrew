@@ -2,9 +2,6 @@ version: "3"
 
 vars:
   IMAGE_NAME: nuagestudio/amazonlinuxbrew
-  # Note: Linuxbrew does not currently support ARM 64bit
-  # https://docs.brew.sh/Homebrew-on-Linux#arm
-  PLATFORM: linux/amd64
 
 tasks:
   default:
@@ -13,11 +10,15 @@ tasks:
 
   build:
     summary: Builds the base Linuxbrew image on Amazonlinux
+    vars:
+      # PLATFORM: linux/arm64/v8,linux/amd64  # Linuxbrew does not currently run on ARM64
+      PLATFORM: linux/amd64
     cmds:
       - >
-        docker build
+        docker buildx build
         --platform {{.PLATFORM}}
-        --tag {{.IMAGE_NAME}}
+        --tag {{.IMAGE_NAME}}:latest
+        --push
         --file ./Dockerfile
         --build-arg TIMESTAMP=`date +%s`
         .
@@ -34,5 +35,7 @@ tasks:
 
   run:
     deps: [build]
+    vars:
+      PLATFORM: linux/amd64
     cmds:
       - docker run -it --rm --platform {{.PLATFORM}} {{.IMAGE_NAME}}
