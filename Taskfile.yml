@@ -2,6 +2,7 @@ version: "3"
 
 vars:
   IMAGE_NAME: nuagestudio/amazonlinuxbrew
+  PLATFORM: linux/amd64 # Linuxbrew does not currently run on ARM64
 
 tasks:
   default:
@@ -11,8 +12,18 @@ tasks:
   build:
     summary: Builds the base Linuxbrew image on Amazonlinux
     vars:
-      # PLATFORM: linux/arm64/v8,linux/amd64  # Linuxbrew does not currently run on ARM64
-      PLATFORM: linux/amd64
+    cmds:
+      - >
+        docker build
+        --platform {{.PLATFORM}}
+        --tag {{.IMAGE_NAME}}:latest
+        --build-arg TIMESTAMP=`date +%s`
+        .
+
+  buildx:
+    summary: Builds the base Linuxbrew image on Amazonlinux via Docker Buildx
+    vars:
+      PLATFORM: linux/arm64/v8,linux/amd64 # Linuxbrew does not currently run on ARM64
     cmds:
       - >
         docker buildx build
@@ -34,7 +45,6 @@ tasks:
       - act --platform ubuntu-latest=nuagestudio/github-actions:alpine
 
   run:
-    deps: [build]
     vars:
       PLATFORM: linux/amd64
     cmds:
