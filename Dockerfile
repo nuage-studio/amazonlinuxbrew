@@ -1,4 +1,4 @@
-FROM amazonlinux:latest
+FROM amazonlinux:2
 
 LABEL maintainer="Louis Amon <louis@nuage.studio>"
 
